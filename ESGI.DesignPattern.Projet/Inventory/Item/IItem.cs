@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ESGI.DesignPattern.Projet.Discounting.ItemDiscount;
+using ESGI.DesignPattern.Projet.Inventory.Money;
 
 namespace ESGI.DesignPattern.Projet.Inventory.Item
 {
