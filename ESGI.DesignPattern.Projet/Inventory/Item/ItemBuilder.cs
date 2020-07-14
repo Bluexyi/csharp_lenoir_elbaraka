@@ -24,5 +24,10 @@ namespace ESGI.DesignPattern.Projet.Inventory.Item
             _price = new Money.Money(price);
             return this;
         }
+
+        public IItem Build()
+        {
+            return new Item(_name, _price);
+        }
     }
 }

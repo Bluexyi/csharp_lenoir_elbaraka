@@ -4,9 +4,10 @@ namespace ESGI.DesignPattern.Projet.Discounting.ItemDiscount
 {
     public class SecondTierDiscountStrategy : IItemDiscountStrategy
     {
+        public static int Percentage { get; } = 10;
 
         public Money ApplyItemDiscount(Money money)
-            => money %= 10;
+            => money %= Percentage;
 
     }
 }

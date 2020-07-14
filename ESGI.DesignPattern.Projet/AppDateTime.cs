@@ -6,6 +6,6 @@ namespace ESGI.DesignPattern.Projet
 {
     public class AppDateTime
     {
-        public static DateTime Now { get; set; } = DateTime.Now;
+        public DateTime Now { get; set; } = DateTime.Now;
     }
 }

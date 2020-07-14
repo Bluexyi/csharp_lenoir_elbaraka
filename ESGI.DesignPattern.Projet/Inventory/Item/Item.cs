@@ -4,7 +4,13 @@ namespace ESGI.DesignPattern.Projet.Inventory.Item
 {
     public class Item : IItem
     {
-        //public string Name { get; private set; }
+        public Item(string name, Money.Money price)
+        {
+            Name = name;
+            Price = price;
+        }
+
+        public string Name { get; }
 
         public Money.Money Price { get; private set; }
         //public IItemDiscountStrategy DiscountStrategy { get; private set; }

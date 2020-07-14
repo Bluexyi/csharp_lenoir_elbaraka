@@ -8,6 +8,7 @@ namespace ESGI.DesignPattern.Projet.Inventory.Item
 {
     public interface IItem
     {
+        string Name { get; }
         Money.Money Price { get; }
         Money.Money ApplyStrategy(IItemDiscountStrategy itemDiscountStrategy);
         //IItemDiscountStrategy DiscountStrategy { get; }

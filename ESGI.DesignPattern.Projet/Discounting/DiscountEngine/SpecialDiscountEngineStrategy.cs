@@ -8,18 +8,16 @@ namespace ESGI.DesignPattern.Projet.Discounting.DiscountEngine
     {
         public IItemDiscountStrategy GetDiscountStrategy(Money price, IMarketingCampaign marketingCampaign)
         {
-            IItemDiscountStrategy discountStrategy = new NoDiscountStrategy();
-
             if (marketingCampaign.IsCrazySalesDay())
-                discountStrategy = new FirstTierDiscountStrategy();
+                return new FirstTierDiscountStrategy();
 
             if (price > Money.OneThousand)
-                discountStrategy = new SecondTierDiscountStrategy();
+                return new SecondTierDiscountStrategy();
 
             if (price > Money.OneHundred && marketingCampaign.IsActive())
-                discountStrategy = new ThirdTierDiscountStrategy();
+                return new ThirdTierDiscountStrategy();
 
-            return discountStrategy;
+            return new NoDiscountStrategy();
         }
     }
 }

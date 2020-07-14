@@ -1,5 +1,7 @@
 ﻿using System;
+using ESGI.DesignPattern.Projet.Discounting.DiscountEngine;
 using ESGI.DesignPattern.Projet.Discounting.ItemDiscount;
+using ESGI.DesignPattern.Projet.Inventory.Item;
 using ESGI.DesignPattern.Projet.Inventory.Money;
 using ESGI.DesignPattern.Projet.Marketing;
 using Xunit;
@@ -7,79 +9,87 @@ using NSubstitute;
 
 namespace ESGI.DesignPattern.Projet.Tests
 {
-    public class Tests
+    public class MultiLevelTests
     {
-        
+        [Fact]
+        public void TestForItem_15pReduction()
+        {
+            var item = new ItemBuilder()
+                .WithName("les pattes")
+                .WithPrice(100)
+                .Build();
 
+            var aFriday = new AppDateTime
+            {
+                Now = new DateTime(2020, 7, 10)
+            };
 
-        //15% de reduction le vendredi
-        //[Fact]
-        //public void DiscountNotFriday()
-        //{
-        //    AppDateTime.Now = new DateTime(2020, 7, 6);
+            var discountEngine = new DiscountEngine(new MarketingCampaign(aFriday));
+            discountEngine.ApplyDiscountFor(item);
 
-        //    var discount = new Discount();
+            Assert.True(item.Price.Equals(new Money(100) % FirstTierDiscountStrategy.Percentage));
+            
+        }
 
-        //    var net = new Money(1002);
-        //    var total = discount.DiscountFor(net);
+        [Fact]
+        public void TestForItem_10pReduction()
+        {
+            var item = new ItemBuilder()
+                .WithName("spaghetti")
+                .WithPrice(1500)
+                .Build();
 
-        //    Assert.Equal(new Money(901.8m), total);
-        //}
+            var aMonday = new AppDateTime
+            {
+                Now = new DateTime(2020, 7, 13)
+            };
 
-        //[Fact]
-        //public void DiscountFridayWithReduc15()
-        //{
-        //    AppDateTime.Now = new DateTime(2020, 7, 10);
+            var discountEngine = new DiscountEngine(new MarketingCampaign(aMonday));
+            discountEngine.ApplyDiscountFor(item);
 
-        //    var discount = new Discount();
+            Assert.True(item.Price.Equals(new Money(1500) % SecondTierDiscountStrategy.Percentage));
 
-        //    var net = new Money(100);
-        //    var total = discount.DiscountFor(net);
+        }
 
-        //    Assert.Equal(new Money(85), total);
-        //}
+        [Fact]
+        public void TestForItem_5pReduction()
+        {
+            var item = new ItemBuilder()
+                .WithName("sauce tomate")
+                .WithPrice(210)
+                .Build();
 
-        ////5% de reduction si milliseconds pair
-        //[Fact]
-        //public void IsActiveWithTotalMillisecondsIsPair()
-        //{
-        //    AppDateTime.Now = new DateTime(2020, 7, 9, 3, 57, 32, 12);
+            var pairDateTime = new AppDateTime
+            {
+                Now = new DateTime(2020, 7, 9, 3, 57, 32, 12)
+            };
 
-        //    var discount = new Discount();
+            var discountEngine = new DiscountEngine(new MarketingCampaign(pairDateTime));
+            discountEngine.ApplyDiscountFor(item);
 
-        //    var net = new Money(200);
-        //    var total = discount.DiscountFor(net);
+            Assert.True(item.Price.Equals(new Money(210) % ThirdTierDiscountStrategy.Percentage));
 
-        //    Assert.Equal(new Money(190), total);
-        //}
+        }
 
-        //[Fact]
-        //public void IsActiveWithTotalMillisecondsIsImpair()
-        //{
-        //    AppDateTime.Now = new DateTime(2020, 7, 9, 3, 57, 32, 11);
+        [Fact]
+        public void TestForItem_NoReduction()
+        {
+            var item = new ItemBuilder()
+                .WithName("supplement d3")
+                .WithPrice(80)
+                .Build();
 
-        //    var discount = new Discount();
+            var pairDateTime = new AppDateTime
+            {
+                Now = new DateTime(2020, 7, 13)
+            };
 
-        //    var net = new Money(200);
-        //    var total = discount.DiscountFor(net);
+            var discountEngine = new DiscountEngine(new MarketingCampaign(pairDateTime));
+            discountEngine.ApplyDiscountFor(item);
 
-        //    Assert.Equal(new Money(200), total);
-        //}
+            Assert.True(item.Price.Equals(new Money(80) % NoDiscountStrategy.Percentage));
 
-        ////10% de reduction si money > 1000
-        //[Fact]
-        //public void IsActiveWithTotalMoneyMoreThan1000()
-        //{
-        //    AppDateTime.Now = new DateTime(2020, 7, 9, 3, 57, 32, 11);
-
-        //    var discount = new Discount();
-
-        //    var net = new Money(1100);
-        //    var total = discount.DiscountFor(net);
-
-        //    Assert.Equal(new Money(990), total);
-        //}
-
+        }
     }
 }
 

@@ -27,13 +27,14 @@ namespace ESGI.DesignPattern.Projet.Discounting.DiscountEngine
         public Money ApplyDiscountFor(IItem item)
         {
             IItemDiscountStrategy discountStrategy =
-                _discountEngineStrategy.GetDiscountStrategy(item.Price, marketingCampaign: _marketingCampaign);
+                _discountEngineStrategy.GetDiscountStrategy(item.Price, _marketingCampaign);
 
             return item.ApplyStrategy(discountStrategy);
         }
 
         public Money SimulateDiscountFor(IItem item)
         {
+            //gets amount but does not apply it
             throw new NotImplementedException();
         }
 

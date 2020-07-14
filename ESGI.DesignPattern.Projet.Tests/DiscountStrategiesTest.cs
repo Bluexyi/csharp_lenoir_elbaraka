@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ESGI.DesignPattern.Projet.Tests
 {
-    public class StrategiesTest
+    public class DiscountStrategiesTest
     {
         [Fact]
         public void TestFirstTierStrategy_15pReduction()
@@ -24,7 +24,6 @@ namespace ESGI.DesignPattern.Projet.Tests
             expectedMoney = firstTierMock.ApplyItemDiscount(new Money(100));
 
             Assert.True(expectedMoney.Equals(checkMoney));
-
         }
 
         [Fact]
@@ -40,7 +39,6 @@ namespace ESGI.DesignPattern.Projet.Tests
             expectedMoney = secondTierMock.ApplyItemDiscount(new Money(100));
 
             Assert.True(expectedMoney.Equals(checkMoney));
-
         }
 
         [Fact]
@@ -56,7 +54,6 @@ namespace ESGI.DesignPattern.Projet.Tests
             expectedMoney = thirdTierMock.ApplyItemDiscount(new Money(100));
 
             Assert.True(expectedMoney.Equals(checkMoney));
-
         }
 
         [Fact]
@@ -69,10 +66,6 @@ namespace ESGI.DesignPattern.Projet.Tests
             checkMoney %= 0;
 
             Assert.True(expectedMoney.Equals(checkMoney));
-
         }
-
-
-        
     }
 }
