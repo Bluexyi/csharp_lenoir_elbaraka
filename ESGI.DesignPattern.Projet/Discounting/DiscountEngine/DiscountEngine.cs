@@ -8,37 +8,31 @@ namespace ESGI.DesignPattern.Projet.Discounting.DiscountEngine
 {
     public class DiscountEngine : IDiscountEngine
     {
-
         private readonly IMarketingCampaign _marketingCampaign;
-
+        private readonly IDiscountEngineStrategy _discountEngineStrategy;
 
         public DiscountEngine(IMarketingCampaign marketingCampaign)
+            : this(marketingCampaign, new SpecialDiscountEngineStrategy()) { }
+
+        public DiscountEngine(IMarketingCampaign marketingCampaign, 
+            IDiscountEngineStrategy discountEngineStrategy)
         {
             _marketingCampaign = marketingCampaign;
+            _discountEngineStrategy = discountEngineStrategy;
         }
+
+        //public Money ApplyDiscountFor(IItem item) => item.ApplyStrategy(
+        //    _discountEngineStrategy.GetDiscountStrategy(item.Price, _marketingCampaign));
 
         public Money ApplyDiscountFor(IItem item)
         {
-            IItemDiscountStrategy discountStrategy = new NoDiscountStrategy();
-
-            if (_marketingCampaign.IsCrazySalesDay())
-                discountStrategy = new FirstTierDiscountStrategy();
-
-            if (item.Price > Money.OneThousand)
-                discountStrategy = new SecondTierDiscountStrategy();
-
-            if (item.Price > Money.OneHundred && _marketingCampaign.IsActive())
-                discountStrategy = new ThirdTierDiscountStrategy();
+            IItemDiscountStrategy discountStrategy =
+                _discountEngineStrategy.GetDiscountStrategy(item.Price, marketingCampaign: _marketingCampaign);
 
             return item.ApplyStrategy(discountStrategy);
         }
 
-        /// <summary>
-        /// Only gets discount for simulation of discount 
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <returns></returns>
-        public int CalculateDiscount(int amount)
+        public Money SimulateDiscountFor(IItem item)
         {
             throw new NotImplementedException();
         }

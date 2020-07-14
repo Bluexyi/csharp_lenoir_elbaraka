@@ -6,6 +6,6 @@ namespace ESGI.DesignPattern.Projet.Discounting.DiscountEngine
     public interface IDiscountEngine
     {
         Money ApplyDiscountFor(IItem item);
-
+        Money SimulateDiscountFor(IItem item);
     }
 }

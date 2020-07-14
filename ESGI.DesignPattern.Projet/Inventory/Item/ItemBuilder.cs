@@ -1,4 +1,6 @@
-﻿namespace ESGI.DesignPattern.Projet.Inventory.Item
+﻿using ESGI.DesignPattern.Projet.Inventory.Money;
+
+namespace ESGI.DesignPattern.Projet.Inventory.Item
 {
     public class ItemBuilder
     {
@@ -12,9 +14,14 @@
             return this;
         }
 
-        public ItemBuilder WithPrice(Money.Money money)
+        public ItemBuilder WithPrice(decimal price)
         {
-            _price = money;
+            _price = new Money.Money(price);
+            return this;
+        }
+        public ItemBuilder WithPrice(int price)
+        {
+            _price = new Money.Money(price);
             return this;
         }
     }
